@@ -1,1 +1,6 @@
 # appstoretms
+
+RAZORPAY PLAY STORE
+
+TEAM #JOKINGLYSECURE
+
