@@ -2,4 +2,5 @@
 <resources>
 
     <style name="Theme.AppStore" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.AppStore.Activity" parent="Theme.AppCompat.DayNight.NoActionBar" />
 </resources>
