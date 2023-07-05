@@ -29,7 +29,7 @@ fun AppListPage(navController: NavHostController){
 fun ScaffoldWithTopBar(navController: NavHostController) {
     Scaffold(
         topBar = {
-            CustomTopAppBar(navController, "Signup", true)
+            CustomTopAppBar(navController, "AppList", true)
         }, content = {
             Column(
                 modifier = Modifier
