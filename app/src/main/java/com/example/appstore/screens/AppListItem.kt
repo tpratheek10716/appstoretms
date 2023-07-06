@@ -1,13 +1,8 @@
 package com.example.appstore.screens
 
-import android.app.DownloadManager
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,27 +28,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.RECEIVER_EXPORTED
-import androidx.core.content.ContextCompat.registerReceiver
-import com.example.appstore.App
 import com.example.appstore.AppListInfo
-import com.example.appstore.utils.DownloadController
+import com.example.appstore.activity.SecondActivity
+
 
 @Composable
 fun AppListItem(apps: AppListInfo,context: Context) {
-    registerReceiver(context,onDownloadComplete,
-        IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),RECEIVER_EXPORTED)
+
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 8.dp)
             .fillMaxWidth(),
         elevation = 2.dp,
         backgroundColor = Color.White,
-        shape = RoundedCornerShape(corner = CornerSize(16.dp))
+        shape = RoundedCornerShape(corner = CornerSize(16.dp)),
 
     ) {
         Row (
-            horizontalArrangement = Arrangement.End
         ){
             AppImage(apps)
             Column(
@@ -70,24 +61,8 @@ fun AppListItem(apps: AppListInfo,context: Context) {
 
             Button(
                 onClick = {
-                    if (getButtonVisible) {
-                        val url =
-                            "https://demo.ezetap.com/ezetap/apps/demo/EZETAP/ANDROID/EZEPOS/10/ezetap_android_epos.apk"
-                        Toast.makeText(
-                            context,
-                            "App found $url",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        pending = true
-                        DownloadController(context, url).enqueueDownload()
-                        getButtonVisible = false
-                    }
-                    else
-                    {
-                        //install app
-                        pending = false
-                    }
+                    val intent = Intent(context,SecondActivity::class.java)
+                    context.startActivity(intent)
                 },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
@@ -118,13 +93,3 @@ private fun AppImage(apps: AppListInfo) {
     )
 }
 
-private val onDownloadComplete: BroadcastReceiver = object : BroadcastReceiver() {
-    override fun onReceive(context: Context, intent: Intent) {
-        //Fetching the download id received with the broadcast
-        val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-        //Checking if the received broadcast is for our enqueued download by matching download id
-        if (App.downloadID == id) {
-            Toast.makeText(context, "Download Completed", Toast.LENGTH_SHORT).show()
-        }
-    }
-}

@@ -39,21 +39,6 @@ import com.example.appstore.viewmodel.LoginViewModel
 
 @Composable
 fun LoginPage(navController: NavController,loginViewModel: LoginViewModel) {
-    /*Box(modifier = Modifier.fillMaxSize()) {
-        ClickableText(
-            text = AnnotatedString("Sign up here"),
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(20.dp),
-            onClick = { },
-            style = TextStyle(
-                fontSize = 14.sp,
-                fontFamily = FontFamily.Default,
-                textDecoration = TextDecoration.Underline,
-                color = Purple40
-            )
-        )
-    }*/
     Column(
         modifier = Modifier.padding(20.dp),
         verticalArrangement = Arrangement.Center,
@@ -89,18 +74,19 @@ fun LoginPage(navController: NavController,loginViewModel: LoginViewModel) {
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                    //perform login
-                    val loginRequestData = getLoginReqData()
+                    if (!username.value.equals("") && !password.value.equals("")) {
+                        //perform login
+                        val loginRequestData = getLoginReqData()
 
-                    loginViewModel.doLogin(loginRequestData)
+                        loginViewModel.doLogin(loginRequestData)
 
-                    //states
-                    Log.e("State success", "$successState")
-                    Log.e("State error", "$errorState")
-                    Log.e("State network fail", "$networkState")
-                    Log.e("Login state", "$loginState")
+                        //states
+                        Log.e("State success", "$successState")
+                        Log.e("State error", "$errorState")
+                        Log.e("State network fail", "$networkState")
+                        Log.e("Login state", "$loginState")
 
-                    /*if(successState != null)
+                        /*if(successState != null)
                         navController.navigate(Routes.AppList.route)
                     else if (networkState!= null)
                         Toast.makeText(
@@ -116,8 +102,15 @@ fun LoginPage(navController: NavController,loginViewModel: LoginViewModel) {
                         ).show()*/
 
 
-                    //remove when api up
-                    navController.navigate(Routes.AppList.route)
+                        //remove when api up
+                        navController.navigate(Routes.AppList.route)
+                    }
+                    else
+                        Toast.makeText(
+                            context,
+                            "Username password required",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                 },
                 shape = RoundedCornerShape(50.dp),

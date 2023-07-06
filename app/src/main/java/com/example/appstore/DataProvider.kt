@@ -10,17 +10,17 @@ object DataProvider {
         ),
         AppListInfo(
             name = "Service APP",
-            version = "10.17.54",
+            version = "10.17.98",
             logo = R.drawable.img
         ),
         AppListInfo(
-            name = "challan APP",
-            version = "10.17.54",
+            name = "Ezetap NIC",
+            version = "3.6.0",
             logo = R.drawable.img
         ),
         AppListInfo(
-            name = "xyz APP",
-            version = "10.17.54",
+            name = "Nagar Nigam",
+            version = "2.2.1",
             logo = R.drawable.img
         )
     )

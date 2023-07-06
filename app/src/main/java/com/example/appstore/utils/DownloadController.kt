@@ -10,9 +10,7 @@ import android.os.Build
 import android.os.Environment
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import com.example.appstore.App.Companion.downloadID
 import java.io.File
-
 class DownloadController(private val context: Context, private val url: String) {
     companion object {
         private const val FILE_NAME = "SampleDownloadApp.apk"
@@ -32,15 +30,53 @@ class DownloadController(private val context: Context, private val url: String) 
         val downloadUri = Uri.parse(url)
         val request = DownloadManager.Request(downloadUri)
         request.setMimeType(MIME_TYPE)
-        request.setTitle("Download app")
-        request.setDescription("Downloadiing")
+        request.setTitle("APK is downloading")
+        request.setDescription("Downloading")
         // set destination
         request.setDestinationUri(uri)
-
+        showInstallOption(destination, uri)
         // Enqueue a new download and same the referenceId
-        downloadID = downloadManager.enqueue(request)
+        downloadManager.enqueue(request)
         Toast.makeText(context, "Downloading", Toast.LENGTH_LONG)
             .show()
-
+    }
+    private fun showInstallOption(
+        destination: String,
+        uri: Uri
+    ) {
+        // set BroadcastReceiver to install app when .apk is downloaded
+        val onComplete = object : BroadcastReceiver() {
+            override fun onReceive(
+                context: Context,
+                intent: Intent
+            ) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    val contentUri = FileProvider.getUriForFile(
+                        context,
+                        "com.ezetap.epos" + PROVIDER_PATH,
+                        File(destination)
+                    )
+                    val install = Intent(Intent.ACTION_VIEW)
+                    install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    install.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    install.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true)
+                    install.data = contentUri
+                    context.startActivity(install)
+                    context.unregisterReceiver(this)
+                    // finish()
+                } else {
+                    val install = Intent(Intent.ACTION_VIEW)
+                    install.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    install.setDataAndType(
+                        uri,
+                        APP_INSTALL_PATH
+                    )
+                    context.startActivity(install)
+                    context.unregisterReceiver(this)
+                    // finish()
+                }
+            }
+        }
+        context.registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 }
