@@ -37,9 +37,12 @@ class LoginRepository {
                 }
             }
 
-            override fun onFailure(call: Call<LoginResponseData>, t: Throwable) {
-                listener.onNetworkFailure(t)
-            }
+                override fun onFailure(call: Call<LoginResponseData>, t: Throwable) {
+                    if (t.message != null)
+                        listener.onNetworkFailure(t.message!!)
+                    else
+                        listener.onNetworkFailure("Network Error")
+                }
 
         })
     }
