@@ -1,12 +1,7 @@
 package com.example.appstore
 
-import android.app.DownloadManager
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -16,15 +11,25 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.example.appstore.screens.ScreenMain
 import com.example.appstore.ui.theme.AppStoreTheme
-import com.example.appstore.utils.Utils
 import com.example.appstore.viewmodel.GetAppListViewModel
 import com.example.appstore.viewmodel.LoginViewModel
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class MainActivity : ComponentActivity() {
     val loginViewModel by viewModels<LoginViewModel>()
 
     val getAppListViewModel by viewModels<GetAppListViewModel>()
+    private fun initFirebaseDeviceToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                Log.e("Token", token)
+            }
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -34,11 +39,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    ScreenMain(loginViewModel,this)
+                    ScreenMain(loginViewModel, this)
                 }
             }
         }
-
+        initFirebaseDeviceToken()
     }
 }
 
