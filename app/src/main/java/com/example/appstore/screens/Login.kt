@@ -1,41 +1,45 @@
 package com.example.appstore.screens
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
+import com.example.appstore.App
 import com.example.appstore.Routes
-import com.example.appstore.ui.theme.Purple40
+import com.example.appstore.data.LoginRequestData
+import com.example.appstore.utils.getLoginReqData
+import com.example.appstore.viewmodel.LoginViewModel
 
 @Composable
-fun LoginPage(navController: NavHostController) {
-    Box(modifier = Modifier.fillMaxSize()) {
+fun LoginPage(navController: NavController,loginViewModel: LoginViewModel) {
+    /*Box(modifier = Modifier.fillMaxSize()) {
         ClickableText(
             text = AnnotatedString("Sign up here"),
             modifier = Modifier
@@ -49,15 +53,21 @@ fun LoginPage(navController: NavHostController) {
                 color = Purple40
             )
         )
-    }
+    }*/
     Column(
         modifier = Modifier.padding(20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        val context = LocalContext.current
         val username = remember { mutableStateOf(TextFieldValue()) }
         val password = remember { mutableStateOf(TextFieldValue()) }
+
+        val successState by loginViewModel.successLoginData().observeAsState()
+        val errorState by loginViewModel.errorLoginData().observeAsState()
+        val networkState by loginViewModel.networkFailureUIData().observeAsState()
+        val loginState by loginViewModel.loginState.collectAsState()
 
         Text(text = "Login", style = TextStyle(fontSize = 40.sp, fontFamily = FontFamily.Cursive))
 
@@ -79,7 +89,36 @@ fun LoginPage(navController: NavHostController) {
         Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
             Button(
                 onClick = {
-                          navController.navigate(Routes.AppList.route)
+                    //perform login
+                    val loginRequestData = getLoginReqData()
+
+                    loginViewModel.doLogin(loginRequestData)
+
+                    //states
+                    Log.e("State success", "$successState")
+                    Log.e("State error", "$errorState")
+                    Log.e("State network fail", "$networkState")
+                    Log.e("Login state", "$loginState")
+
+                    /*if(successState != null)
+                        navController.navigate(Routes.AppList.route)
+                    else if (networkState!= null)
+                        Toast.makeText(
+                            context,
+                            "Network failure",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    else if(errorState!=null)
+                        Toast.makeText(
+                            context,
+                            "Error logging on",
+                            Toast.LENGTH_SHORT
+                        ).show()*/
+
+
+                    //remove when api up
+                    navController.navigate(Routes.AppList.route)
+
                 },
                 shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
@@ -91,13 +130,13 @@ fun LoginPage(navController: NavHostController) {
         }
 
         Spacer(modifier = Modifier.height(20.dp))
-        ClickableText(
+        /*ClickableText(
             text = AnnotatedString("Forgot password?"),
             onClick = { },
             style = TextStyle(
                 fontSize = 14.sp,
                 fontFamily = FontFamily.Default
             )
-        )
+        )*/
     }
 }
