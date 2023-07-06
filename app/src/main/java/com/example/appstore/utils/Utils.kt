@@ -62,5 +62,16 @@ class Utils {
             return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
         }
 
+        fun isAppInstalled(packageName: String, context: Context): Boolean {
+            val packageManager = context.packageManager
+            return try {
+                packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+                true
+            } catch (e: PackageManager.NameNotFoundException) {
+                false
+            }
+        }
+
+
     }
 }
