@@ -37,7 +37,7 @@ fun AppListItem(apps: AppListInfo,context: Context) {
 
     Card(
         modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 8.dp)
+            .padding(horizontal = 16.dp, vertical = 16.dp)
             .fillMaxWidth(),
         elevation = 2.dp,
         backgroundColor = Color.White,
@@ -45,36 +45,36 @@ fun AppListItem(apps: AppListInfo,context: Context) {
 
     ) {
         Row (
-        ){
+        ) {
             AppImage(apps)
             Column(
                 modifier = Modifier
                     .padding(16.dp)
-                    .align(Alignment.CenterVertically)) {
+            ) {
+
                 Text(text = apps.name, style = typography.h6)
                 Text(text = apps.version, style = typography.caption)
 
-            }
 
-            var getButtonVisible by remember { mutableStateOf(true) }
-            var pending by remember { mutableStateOf(false) }
+                var getButtonVisible by remember { mutableStateOf(true) }
+                var pending by remember { mutableStateOf(false) }
 
-            Button(
-                onClick = {
-                    val intent = Intent(context,SecondActivity::class.java)
-                    context.startActivity(intent)
-                },
-                shape = RoundedCornerShape(50.dp),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .width(100.dp)
-                    .height(50.dp),
-                enabled = !pending || !getButtonVisible
-            ) {
-                if(getButtonVisible)
-                    Text(text = "Install")
-                else
-                    Text(text = "Open")
+                Button(
+                    onClick = {
+                        val intent = Intent(context, SecondActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    shape = RoundedCornerShape(50.dp),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    enabled = !pending || !getButtonVisible
+                ) {
+                    if (getButtonVisible)
+                        Text(text = "Install")
+                    else
+                        Text(text = "Open")
+                }
             }
         }
     }
