@@ -37,7 +37,7 @@ fun AppListItem(apps: AppListInfo,context: Context) {
 
     Card(
         modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 16.dp)
+            .padding(horizontal = 8.dp, vertical = 8.dp)
             .fillMaxWidth(),
         elevation = 2.dp,
         backgroundColor = Color.White,
@@ -49,7 +49,7 @@ fun AppListItem(apps: AppListInfo,context: Context) {
             AppImage(apps)
             Column(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp, vertical = 16.dp)
             ) {
 
                 Text(text = apps.name, style = typography.h6)
@@ -66,7 +66,7 @@ fun AppListItem(apps: AppListInfo,context: Context) {
                     },
                     shape = RoundedCornerShape(50.dp),
                     modifier = Modifier
-                        .padding(16.dp)
+                        .padding(horizontal = 8.dp, vertical = 16.dp)
                         .fillMaxWidth(),
                     enabled = !pending || !getButtonVisible
                 ) {
