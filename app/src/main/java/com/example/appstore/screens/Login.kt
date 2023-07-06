@@ -101,7 +101,6 @@ fun LoginPage(navController: NavController,loginViewModel: LoginViewModel) {
                             Toast.LENGTH_SHORT
                         ).show()*/
 
-
                         //remove when api up
                         navController.navigate(Routes.AppList.route)
                     }
@@ -123,13 +122,6 @@ fun LoginPage(navController: NavController,loginViewModel: LoginViewModel) {
         }
 
         Spacer(modifier = Modifier.height(20.dp))
-        /*ClickableText(
-            text = AnnotatedString("Forgot password?"),
-            onClick = { },
-            style = TextStyle(
-                fontSize = 14.sp,
-                fontFamily = FontFamily.Default
-            )
-        )*/
+
     }
 }
