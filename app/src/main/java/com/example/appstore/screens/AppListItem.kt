@@ -72,9 +72,9 @@ fun AppListItem(apps: AppListInfo,context: Context) {
                 enabled = !pending || !getButtonVisible
             ) {
                 if(getButtonVisible)
-                    Text(text = "Get")
-                else
                     Text(text = "Install")
+                else
+                    Text(text = "Open")
             }
         }
     }
