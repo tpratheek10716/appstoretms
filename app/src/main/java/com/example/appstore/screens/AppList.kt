@@ -1,6 +1,7 @@
 package com.example.appstore.screens
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,28 +17,28 @@ import com.example.appstore.DataProvider
 import com.example.appstore.components.CustomTopAppBar
 
 @Composable
-fun AppListPage(navController: NavHostController){
+fun AppListPage(navController: NavHostController,context:Context){
 
     Box(modifier = Modifier.fillMaxSize()) {
-        ScaffoldWithTopBar(navController)
+        ScaffoldWithTopBar(navController,context)
     }
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ScaffoldWithTopBar(navController: NavHostController) {
+fun ScaffoldWithTopBar(navController: NavHostController,context:Context) {
     Scaffold(
         topBar = {
             CustomTopAppBar(navController, "AppList", true)
         }, content = {
-            AppListContent()
+            AppListContent(context)
         })
 
 
 }
 
 @Composable
-fun AppListContent() {
+fun AppListContent(context:Context) {
     val appsList = remember { DataProvider.appList }
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
@@ -45,7 +46,7 @@ fun AppListContent() {
         items(
             items = appsList,
             itemContent = {
-                AppListItem(apps = it)
+                AppListItem(apps = it,context)
             })
     }
 

@@ -1,5 +1,6 @@
 package com.example.appstore.screens
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -8,7 +9,7 @@ import com.example.appstore.Routes
 import com.example.appstore.viewmodel.LoginViewModel
 
 @Composable
-fun ScreenMain(loginViewModel: LoginViewModel){
+fun ScreenMain(loginViewModel: LoginViewModel,context:Context){
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = Routes.Login.route) {
@@ -18,7 +19,7 @@ fun ScreenMain(loginViewModel: LoginViewModel){
         }
 
         composable(Routes.AppList.route) {
-            AppListPage(navController = navController)
+            AppListPage(navController = navController,context)
         }
     }
 }
