@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.appstore.App.Companion.context
+import com.example.appstore.screens.AppListPage
 import com.example.appstore.screens.LoginPage
 import com.example.appstore.screens.ScreenMain
 import com.example.appstore.ui.theme.AppStoreTheme
@@ -35,18 +36,12 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        loginViewModel.successLoginData().observe(this) {
+        /*loginViewModel.successLoginData().observe(this) {
             Log.e("Response Data", it.toString())
             //navController.navigate(Routes.AppList.route)
-
         }
 
         loginViewModel.errorLoginData().observe(this) {
-            Toast.makeText(
-                context,
-                "Error logging in. Please enter valid credentials",
-                Toast.LENGTH_SHORT
-            ).show()
             Log.e("Response Data", it.toString())
         }
 
@@ -57,7 +52,7 @@ class MainActivity : ComponentActivity() {
                 Toast.LENGTH_SHORT
             ).show()
             Log.e("Response Data", it.toString())
-        }
+        }*/
     }
 }
 
