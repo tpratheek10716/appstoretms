@@ -1,7 +1,11 @@
 package com.example.appstore
 
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,16 +13,11 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.appstore.App.Companion.context
-import com.example.appstore.screens.AppListPage
-import com.example.appstore.screens.LoginPage
 import com.example.appstore.screens.ScreenMain
 import com.example.appstore.ui.theme.AppStoreTheme
 import com.example.appstore.viewmodel.LoginViewModel
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+
 
 class MainActivity : ComponentActivity() {
     val loginViewModel by viewModels<LoginViewModel>()
@@ -35,6 +34,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+        //registerReceiver(onDownloadComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         /*loginViewModel.successLoginData().observe(this) {
             Log.e("Response Data", it.toString())
@@ -54,5 +55,18 @@ class MainActivity : ComponentActivity() {
             Log.e("Response Data", it.toString())
         }*/
     }
+
+    /*private val onDownloadComplete: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            //Fetching the download id received with the broadcast
+            val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            //Checking if the received broadcast is for our enqueued download by matching download id
+            if (downloadID == id) {
+                Toast.makeText(this@MainActivity, "Download Completed", Toast.LENGTH_SHORT).show()
+                downloadPending = false
+            }
+        }
+    }*/
+
 }
 

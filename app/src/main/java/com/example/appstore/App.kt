@@ -22,5 +22,7 @@ class App : Application() {
     companion object {
         lateinit var instance: App private set
         lateinit var context: Context private set
+
+        var downloadID: Long = 0
     }
 }
