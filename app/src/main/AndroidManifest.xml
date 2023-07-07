@@ -15,9 +15,20 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppStore"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.AppListActivity"
+            android:theme="@style/Theme.AppStore.Activity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.SecondActivity"
             android:exported="false"
@@ -39,16 +50,16 @@
         </provider>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.LoginMainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppStore"
+            android:theme="@style/Theme.AppStore.Activity"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
+           <!-- <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
 
         <service
@@ -59,18 +70,7 @@
 
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-
         </service>
-<!--
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_log_2_01" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/primary" />
--->
-
     </application>
 
 </manifest>
